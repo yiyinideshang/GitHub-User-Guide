@@ -247,7 +247,20 @@ git push
 
 # 6.常见错误：
 
+```c
+Git: fatal: unable to access 'https://github.com/yiyinideshang/GitHub-User-Guide.git/': SSL certificate OpenSSL verify result: unable to get local issuer certificate (20)
+吉特：致命错误：无法访问 'https://github.com/yiyinideshang/GitHub-User-Guide.git/': SSL 证书 OpenSSL 验证结果：无法获取本地颁发机构证书（错误代码 20）
+```
 
+### 使用 SSH 协议（推荐）
+
+将远程仓库地址改为 SSH 格式：
+
+```bash
+git remote set-url origin git@github.com:yiyinideshang/GitHub-User-Guide.git
+```
+
+之后推送、拉取等操作都会通过 SSH，不再受 SSL 证书影响。
 
 # ==------------------------------==
 
