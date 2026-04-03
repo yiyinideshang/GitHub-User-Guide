@@ -352,6 +352,14 @@ git push
 
 ## 本地Git切换分支
 
+- 查看当前所在分支
+
+````bash
+git branch
+````
+
+带 `*` 的是当前分支。
+
 ````bash
 # 1. 切换到目标分支（比如 dev）
 git checkout dev
