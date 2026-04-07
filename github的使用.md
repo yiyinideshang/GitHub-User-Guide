@@ -165,7 +165,27 @@ git remote remove origin
 git remote add origin git@github.com:用户名/仓库名.git
 ```
 
-验证远程地址：`git remote -v`
+验证远程地址：`git remote -v` **查看当前本地仓库所关联的所有远程仓库**
+
+- **`git remote`**：管理远程仓库的命令（列出、添加、删除等）。
+- **`-v`**：`--verbose` 的缩写，表示“显示详细信息”。
+- 合起来：**列出所有远程仓库的别名和对应的 URL**，并且会标注每个 URL 是用于 **fetch（拉取）** 还是 **push（推送）**。
+
+在你本地的 Git 项目里运行这个命令，可能会看到类似这样的输出：
+
+```bash
+origin  https://github.com/你的用户名/项目名.git (fetch)
+origin  https://github.com/你的用户名/项目名.git (push)
+origin：远程仓库的默认别名（你也可以添加其他名字，如 upstream）。
+
+https://...：远程仓库的实际地址。
+
+(fetch)：从这个地址拉取更新（git pull / git fetch 使用）。
+
+(push)：向这个地址推送更新（git push 使用）。
+```
+
+
 
 ### 3.3 确保分支名匹配（GitHub 默认主分支为 `main`）
 
@@ -489,3 +509,96 @@ PR 的目的是 **把 `compare` 分支里的改动，合并到 `base` 分支里*
 
   或者，你也可以直接把 Typora 的工作目录改成 VSCode 仓库里的那个文件夹，这样写完笔记直接就在 Git 管理下了，更方便。
 
+# `git pull`和`git fetch`
+
+## 什么时候用？
+
+当你想让本地仓库同步远程仓库（比如 GitHub 上别人推送了新代码，或者你在另一台电脑上推送了更新），就用 `git pull`。
+
+**`git pull` = 下载远程更新 + 自动合并到本地当前分支**，让你本地的代码和远程保持一致。
+
+| 命令        | 是否下载新提交 | 是否自动合并                 |
+| :---------- | :------------- | :--------------------------- |
+| `git fetch` | ✅ 是           | ❌ 否（只下载，不改变工作区） |
+| `git pull`  | ✅ 是           | ✅ 是（下载+合并）            |
+
+- `git fetch` 更安全：你可以先看看远程更新了什么，再决定是否合并。
+- `git pull` 更方便：一步完成同步，适合日常简单场景。
+
+## 可能会遇到的问题
+
+1. **合并冲突**
+   如果远程的修改和你本地的未提交修改（或本地的新提交）冲突，Git 会提示冲突，需要你手动解决后再提交。
+2. **未完成的合并**（就像你之前遇到的）
+   如果上次 `git pull` 或 `git merge` 没有正常完成（比如手动中断、冲突未解决），再次 `git pull` 会报错，需要先处理完上次的合并或执行 `git merge --abort`。
+
+---
+
+# 本地和远程冲突解决
+
+如：我在github上修改了REDME.md文档,但是我在本地直接进行了推送,会导致文件冲突。**所以**我使用了`git pull`**从远程仓库拉取最新内容并合并到本地**,**但是**我没有正常完成(比如手动中断、冲突未解决),再次`git pull`会报错。需要先**处理完上次的合并**或**执行 `git merge --abort`。**
+
+```bash
+PS D:\VSCodeProject\c-> git pull 
+error: You have not concluded your merge (MERGE_HEAD exists).
+hint: Please, commit your changes before merging.
+
+PS：从 D:\VSCodeProject\c 目录执行“git pull”命令时出现错误。
+错误信息：您尚未完成合并操作（MERGE_HEAD 存在）。
+提示：请在进行合并操作之前先提交您的更改。
+```
+
+## 查看冲突文件
+
+```bash
+git status
+```
+
+会列出哪些文件有冲突（显示为 `both modified`）。
+
+## 处理上次的合并
+
+```bash
+PS D:\VSCodeProject\c-> git status
+On branch main
+Your branch and 'origin/main' have diverged,
+and have 1 and 1 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+        modified:   README.md
+```
+
+这个 `git status` 告诉我们两件事：
+
+1. **合并冲突已解决，但合并还没有最终完成**（需要执行 `git commit`）。
+2. **本地分支和远程分支已经分叉**（各有 1 个对方没有的提交）。
+
+- **“All conflicts fixed but you are still merging.”**
+  你之前执行 `git pull` 或 `git merge` 时遇到了冲突，但你已经手动解决了所有冲突（`README.md` 已修改并加入暂存区）。不过 Git 还在等待你**提交这次合并结果**，所以状态显示“仍在合并中”。
+- **“Your branch and 'origin/main' have diverged, and have 1 and 1 different commits each...”**
+  这意味着：
+  - 你本地有一个提交，远程有一个提交，这两个提交内容不同，且没有共同历史。
+  - 通常是因为你本地做了提交，同时远程也有别人（或你在另一台机器）推送了不同的提交，导致分叉。
+
+接下来应该：
+
+```bash
+git commit -m "完成合并" #本地完成合并
+git push origin main	#将与远端合并后(本地和远端保持一致),本地新操作的文件上传到远端
+```
+
+> 小提示：以后如果遇到合并冲突但不想处理，可以直接用 `git merge --abort` 放弃合并，避免进入这种“未完成合并”的状态。
+
+## 撤销/放弃 合并
+
+```bash
+git merge --abort
+```
+
+- 撤销正在进行的合并
+- 让你的仓库回到执行 `git pull` 之前的状态
+- 删除 `MERGE_HEAD` 标记
