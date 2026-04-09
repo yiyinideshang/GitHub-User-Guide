@@ -602,3 +602,45 @@ git merge --abort
 - 撤销正在进行的合并
 - 让你的仓库回到执行 `git pull` 之前的状态
 - 删除 `MERGE_HEAD` 标记
+
+# 排除文件
+
+## 使用 `.gitignore` 文件
+
+1. **在本地仓库的根目录下**，创建一个名为 `.gitignore` 的文件（注意开头有个点）。
+2. **在 `.gitignore` 中**，写入你想要排除的文件或文件夹的路径（每行一个）。
+3. **将 `.gitignore` 文件本身添加到 Git 并提交**，然后正常推送。
+
+假设你要排除 `temp.txt` 和整个 `build/` 文件夹：
+
+```bash
+# 忽略单个文件
+temp.txt
+
+# 忽略整个文件夹
+build/
+
+# 忽略所有 .log 文件
+*.log
+```
+
+#### 如果该文件已经被 Git 跟踪了怎么办？
+
+如果文件之前已经提交过，仅仅添加到 `.gitignore` 不会自动让它停止被跟踪。你需要先从 Git 索引中移除它（但保留本地文件）：
+
+```bash
+git rm --cached <要排除的文件名>
+```
+
+然后提交这个改动，之后 Git 就会忽略该文件。
+
+### 总结步骤（以上传新项目为例）
+
+1. `git init`
+2. 创建 `.gitignore`，写入要排除的文件名
+3. `git add .`
+4. `git commit -m "Initial commit"`
+5. `git remote add origin <你的GitHub仓库URL>`
+6. `git push -u origin main`
+
+这样被排除的文件就不会出现在 GitHub 上了。
