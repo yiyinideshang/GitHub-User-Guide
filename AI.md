@@ -352,6 +352,8 @@ promptUser();
 
 https://bailian.console.aliyun.com/cn-beijing/?spm=5176.29619931.J_SEsSjsNv72yRuRFS2VknO.2.74cd10d7oW5oib&tab=doc#/doc/?type=model&url=2880898
 
+![Cline_qwen](D:\Typora\typora_work\C++规划\GitHub-User-Guide\Cline_qwen.png)
+
 # 智谱AI
 
 ## 智谱的使用指南
