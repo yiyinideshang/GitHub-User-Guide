@@ -4,6 +4,12 @@
 
 - 还没开始
 
+# [Chatbox AI](https://chatboxai.app/zh/)
+
+网页版：https://web.chatboxai.app/guide
+
+Chatbox AI 是一款 AI 客户端应用和智能助手，支持众多先进的 AI 模型和 API，可在 Windows、MacOS、Android、iOS、Linux 和网页版上使用。
+
 # Codex
 
 ==[Codex 教程 | 菜鸟教程](https://www.runoob.com/codex/codex-tutorial.html)==
@@ -196,7 +202,15 @@ npm uninstall -g @openai/codex
 brew uninstall --cask codex
 ```
 
-# 千问AI
+# [ChatGPT AI大模型](https://chatgpt.com/)
+
+# [Kimi AI大模型](https://www.kimi.com/)
+
+# 千问 AI大模型
+
+千问-大模型服务平台百炼控制台：https://bailian.console.aliyun.com/cn-beijing/?spm=5176.30260724.0.0.15c71883Srxg0r&tab=home#/home
+
+通义千问：https://www.qianwen.com/?spm=5176.28326591.0.0.40f76ee1pYDGxd
 
 ## hello_qwen.mjs
 
@@ -354,7 +368,11 @@ https://bailian.console.aliyun.com/cn-beijing/?spm=5176.29619931.J_SEsSjsNv72yRu
 
 ![Cline_qwen](D:\Typora\typora_work\C++规划\GitHub-User-Guide\Cline_qwen.png)
 
-# 智谱AI
+# 智谱 AI大模型
+
+智谱-清言：https://chatglm.cn/main/alltoolsdetail?t=1775648196903&lang=zh&cid=69d63dcb8f46a2b326d5baaf
+
+智谱-AI开放平台：https://bigmodel.cn/
 
 ## 智谱的使用指南
 
@@ -365,6 +383,16 @@ https://bigmodel.cn/usercenter/glm-coding/overview
 https://docs.bigmodel.cn/cn/coding-plan/tool/cline
 
 ## MCP服务器
+
+# Deepseek AI大模型
+
+Deepseek开放平台：https://platform.deepseek.com/usage
+
+DeepseekAPI文档：https://api-docs.deepseek.com/zh-cn/
+
+- 👤 **DeepSeek Chat (非思考模式)**：定位为日常全能助手，反应快且不展示思考过程，适合**日常对话、内容创作、翻译、客服**等需要快速响应的常规任务。不适用于需要深入多步推理的复杂任务（如复杂数学证明）。
+- 🧠 **DeepSeek Reasoner (思考模式)**：定位为深度推理专家，会展示包含“分析问题→推导过程”在内的完整思维链（CoT），适合处理**高阶编程、复杂数学、逻辑分析、辅助决策**等难题。不适用于对响应速度要求高或仅需简单闲聊的场合。
+- ⚙️ **性能与成本**：Chat 追求速度与低延迟，成本较低；Reasoner 则偏向慢速深度思考，生成详细思维链导致成本更高。Reasoner默认输出长度更长（可达32K-64K tokens），且不支持调整`temperature`等参数。
 
 # Cline - VSCode插件
 
