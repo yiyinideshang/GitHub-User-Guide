@@ -288,15 +288,15 @@ git remote set-url origin git@github.com:yiyinideshang/GitHub-User-Guide.git
 
 ## ✅ 第一步：安装并配置 Git（如果还没做）
 
-![1](D:\Typora\typora_work\C++规划\1.png)
+![1](D:\Typora\typora_work\C++规划\GitHub\1.png)
 
 ## 📁 第二步：在本地代码文件夹中初始化 Git 仓库
 
-![2](D:\Typora\typora_work\C++规划\2.png)
+![2](D:\Typora\typora_work\C++规划\GitHub\2.png)
 
 ## 📄 第三步：添加文件并提交到本地仓库
 
-![3](D:\Typora\typora_work\C++规划\3.png)
+![3](D:\Typora\typora_work\C++规划\GitHub\3.png)
 
 ## 第四步：在 GitHub 上创建一个空仓库
 
@@ -330,7 +330,7 @@ git push -u origin main
 
 `-u` 表示建立本地分支与远程分支的关联，之后只需 `git push` 即可。
 
-![4](D:\Typora\typora_work\C++规划\4.png)
+![4](D:\Typora\typora_work\C++规划\github\4.png)
 
 以后每次修改代码，只需三步即可同步到 GitHub：
 
