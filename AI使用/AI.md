@@ -1,4 +1,58 @@
-# Claude Code
+# 1. Claude Code
+
+[Claude Code官网](https://claude.com/)Anthropic
+
+- 还没开始
+
+# 2. ChatGPT 
+
+[ChatGPT](https://chatgpt.com/)
+
+## [OpenAI官网](https://openai.com/zh-Hans-CN/)
+
+旗下产品：
+
+- Codex
+
+- ChatGPT
+
+# 3. Deepseek
+
+[DeepSeek | 深度求索](https://www.deepseek.com/)
+
+- API开放平台：[DeepSeek 开放平台](https://platform.deepseek.com/usage)
+
+Deepseek开放平台：https://platform.deepseek.com/usage
+
+DeepseekAPI文档：https://api-docs.deepseek.com/zh-cn/
+
+- 👤 **DeepSeek Chat (非思考模式)**：定位为日常全能助手，反应快且不展示思考过程，适合**日常对话、内容创作、翻译、客服**等需要快速响应的常规任务。不适用于需要深入多步推理的复杂任务（如复杂数学证明）。
+- 🧠 **DeepSeek Reasoner (思考模式)**：定位为深度推理专家，会展示包含“分析问题→推导过程”在内的完整思维链（CoT），适合处理**高阶编程、复杂数学、逻辑分析、辅助决策**等难题。不适用于对响应速度要求高或仅需简单闲聊的场合。
+- ⚙️ **性能与成本**：Chat 追求速度与低延迟，成本较低；Reasoner 则偏向慢速深度思考，生成详细思维链导致成本更高。Reasoner默认输出长度更长（可达32K-64K tokens），且不支持调整`temperature`等参数。
+
+# 4. Kimi
+
+[Kimi ](https://www.kimi.com/)
+
+[Moonshot AI(月之暗面官网)](https://www.moonshot.cn/)
+
+- API开放平台：[Kimi API 开放平台](https://platform.kimi.com/)
+
+# 5. 千问
+
+ [千问.md](千问.md) 
+
+[千问](https://www.qianwen.com/)
+
+- [阿里云](https://www.aliyun.com/)
+
+# 6. 智谱
+
+ [智谱.md](智谱.md) 
+
+[bigmodel智谱官网](https://bigmodel.cn/)
+
+- [智谱AI开放平台](https://bigmodel.cn/)
 
 # Cursor
 
@@ -6,15 +60,25 @@
 
 # [Chatbox AI](https://chatboxai.app/zh/)
 
+[Chatbox 官网](https://chatboxai.app/zh/)
+
 网页版：https://web.chatboxai.app/guide
 
 Chatbox AI 是一款 AI 客户端应用和智能助手，支持众多先进的 AI 模型和 API，可在 Windows、MacOS、Android、iOS、Linux 和网页版上使用。
 
+# OpenCode
+
+[OpenCode官网](https://opencode.ai/zh)
+
+[OpenCode工作台](https://opencode.ai/auth)
+
 # Codex
+
+[OpenAI Developers](https://developers.openai.ac.cn/codex)
 
 ==[Codex 教程 | 菜鸟教程](https://www.runoob.com/codex/codex-tutorial.html)==
 
-# 已经安装了Codex CLI 还没有ChatGPT账号
+## 已经安装了Codex CLI 还没有ChatGPT账号
 
 https://www.runoob.com/codex/codex-install.html
 
@@ -202,199 +266,25 @@ npm uninstall -g @openai/codex
 brew uninstall --cask codex
 ```
 
-# [ChatGPT AI大模型](https://chatgpt.com/)
-
-# [Kimi AI大模型](https://www.kimi.com/)
-
-# 千问 AI大模型
-
-千问-大模型服务平台百炼控制台：https://bailian.console.aliyun.com/cn-beijing/?spm=5176.30260724.0.0.15c71883Srxg0r&tab=home#/home
-
-通义千问：https://www.qianwen.com/?spm=5176.28326591.0.0.40f76ee1pYDGxd
-
-## hello_qwen.mjs
-
-在  `D:\nodejs\node_global\node_modules\test_qwen`下的`hello_qwen.mjs` 文件中:
-
-```js
-// hello_qwen.mjs
-import OpenAI from 'openai';
-import readline from 'readline';
-
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-  baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
-});
-
-// 对话历史
-const messages = [
-  { role: 'system', content: '你是一个有用的助手。' }
-];
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-console.log('\n通义千问对话已启动。输入问题后按回车发送。输入 "exit" 或 "quit" 退出。\n');
-
-async function askQuestion(userInput) {
-  messages.push({ role: 'user', content: userInput });
-
-  try {
-    const stream = await client.chat.completions.create({
-      model: 'qvq-max-2025-03-25',   
-      // 可按需更换为 
-      // qwen3.6-plus,
-      // qwen3.5-plus,
-      // qwen3.5-flash,
-      // qwen3.5-35b-a3b,
-      // qwen3-max, 
-      // qwen-plus,
-      // qvq-max-2025-03-25
-
-      //qwen3-coder-plus
-      //qwen3-coder-flash
-      messages: messages,
-      stream: true,
-      stream_options: { include_usage: true },  // 注意：true 为小写
-      extra_body: { enable_thinking: true },
-    });
-
-    let isAnswering = false;
-    let assistantReply = '';
-    let usage = null;
-
-    console.log('\n' + '='.repeat(20) + '思考过程' + '='.repeat(20));
-    for await (const chunk of stream) {
-      // 处理 usage（可能出现在没有 choices 的最后一个 chunk 中）
-      if (chunk.usage) {
-        usage = chunk.usage;
-      }
-
-      // 处理正常内容（当 choices 存在时）
-      if (chunk.choices && chunk.choices.length > 0) {
-        const delta = chunk.choices[0].delta;
-        // 阿里云扩展字段：思考内容
-        if (delta.reasoning_content) {
-          if (!isAnswering) {
-            process.stdout.write(delta.reasoning_content);
-          }
-        }
-        // 最终回复内容
-        if (delta.content) {
-          if (!isAnswering) {
-            console.log('\n' + '='.repeat(20) + '完整回复' + '='.repeat(20));
-            isAnswering = true;
-          }
-          process.stdout.write(delta.content);
-          assistantReply += delta.content;
-        }
-      }
-    }
-    console.log('\n');
-
-    // 打印 Token 用量
-    if (usage) {
-      console.log('📊 Token 用量统计:');
-      console.log(`   - 输入 tokens (prompt_tokens): ${usage.prompt_tokens}`);
-      console.log(`   - 输出 tokens (completion_tokens): ${usage.completion_tokens}`);
-      console.log(`   - 总计 tokens (total_tokens): ${usage.total_tokens}`);
-    } else {
-      console.log('⚠️ 未获取到 usage 信息（可能模型或流式响应未返回）');
-    }
-
-    // 将助手的回复加入历史
-    messages.push({ role: 'assistant', content: assistantReply });
-
-  } catch (error) {
-    console.error('发生错误:', error.message);
-  }
-
-  promptUser();
-}
-
-function promptUser() {
-  rl.question('你: ', (input) => {
-    if (input.toLowerCase() === 'exit' || input.toLowerCase() === 'quit') {
-      console.log('再见！');
-      rl.close();
-      return;
-    }
-    askQuestion(input);
-  });
-}
-
-//启动对话
-promptUser();
-```
-
-1. **确保环境变量已设置**（在 PowerShell 中）：
-
-   ```powershell
-   $env:OPENAI_API_KEY = "sk-你的完整阿里云API Key"
-   ```
-
-   （如果之前设置过且当前窗口没关，可以跳过）
-
-1. **运行脚本**：
-
-   ```bash
-   node hello_qwen.mjs
-   ```
-
-## 查看当前API调用的模型版本
-
-根据之前的对话，你当前是通过API来调用模型的，这意味着你并没有在本地运行一个具体的模型。你代码中的 `model="qwen-turbo"`（或类似参数）决定了你在使用哪个版本的模型。
-
-你可以通过以下几种方式来确认它：
-
-- # **1. 直接查看你的代码**
-  
-  - **做法**：打开你的 `hello_qwen.mjs` 文件，找到 `client.chat.completions.create` 方法调用。
-  - **关键参数**：查看其中 `model:` 后面的值，例如 `'qwen-turbo'`, `'qwen-plus'` 或 `'qwen3.6-plus'`。这个就是你正在使用的模型名称。
-- **2. 通过API请求确认**
-  
-  - 如果你使用的是流式输出（`stream=True`），可以通过打印返回的第一个数据块（chunk）来查看 `model` 字段，这通常包含完整的模型标识符。
-  - 但更直接的方式是，你可以发送一个同步请求，并打印完整的响应对象，在其中找到 `model` 字段。
-- **3. 访问阿里云百炼控制台**
-  - **做法**：登录[阿里云百炼控制台](https://bailian.console.aliyun.com/)。
-  - **路径**：进入“模型广场”或“模型管理”页面。
-  - **详情**：你可以在这里看到所有可用模型的列表及其详细信息，包括 `qwen-turbo`、`qwen-plus`、`qwen-max` 以及 `qwen3.6-plus` 等模型的具体说明和版本状态
-
-## Cline上配置==千问==
-
-https://bailian.console.aliyun.com/cn-beijing/?spm=5176.29619931.J_SEsSjsNv72yRuRFS2VknO.2.74cd10d7oW5oib&tab=doc#/doc/?type=model&url=2880898
-
-![Cline_qwen](D:\Typora\typora_work\C++规划\GitHub-User-Guide\Cline_qwen.png)
-
-# 智谱 AI大模型
-
-智谱-清言：https://chatglm.cn/main/alltoolsdetail?t=1775648196903&lang=zh&cid=69d63dcb8f46a2b326d5baaf
-
-智谱-AI开放平台：https://bigmodel.cn/
-
-## 智谱的使用指南
-
-https://bigmodel.cn/usercenter/glm-coding/overview
-
-## Cline上配置==智谱==
-
-https://docs.bigmodel.cn/cn/coding-plan/tool/cline
-
-## MCP服务器
-
-# Deepseek AI大模型
-
-Deepseek开放平台：https://platform.deepseek.com/usage
-
-DeepseekAPI文档：https://api-docs.deepseek.com/zh-cn/
-
-- 👤 **DeepSeek Chat (非思考模式)**：定位为日常全能助手，反应快且不展示思考过程，适合**日常对话、内容创作、翻译、客服**等需要快速响应的常规任务。不适用于需要深入多步推理的复杂任务（如复杂数学证明）。
-- 🧠 **DeepSeek Reasoner (思考模式)**：定位为深度推理专家，会展示包含“分析问题→推导过程”在内的完整思维链（CoT），适合处理**高阶编程、复杂数学、逻辑分析、辅助决策**等难题。不适用于对响应速度要求高或仅需简单闲聊的场合。
-- ⚙️ **性能与成本**：Chat 追求速度与低延迟，成本较低；Reasoner 则偏向慢速深度思考，生成详细思维链导致成本更高。Reasoner默认输出长度更长（可达32K-64K tokens），且不支持调整`temperature`等参数。
+# MCP服务器
 
 # Cline - VSCode插件
 
-![Cine](D:\Typora\typora_work\C++规划\Cline.png)
+## Cline上配置==智谱==
+
+参见： [智谱.md ->Cline上配置智谱](智谱.md) 
+
+## Cline上配置==千问==
+
+- 参见： [千问.md ->Cline上配置千问](千问.md) 
+
+# OpenRouter
+
+[OpenRouter官网](https://openrouter.ai/)
+
+免费可用模型：
+
+- z-ai/glm-4.5-air:free
+
+- google/gemma-4-31b-it:free
 
