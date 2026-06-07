@@ -1,3 +1,111 @@
+# GitHub-CLI（gh）
+
+## Windows版安装
+
+### 方法 A：用 winget（推荐，Windows 10/11 自带）
+
+```powershell
+winget install --id GitHub.cli
+```
+
+### 方法 B：直接下载安装程序
+
+- 访问 https://cli.github.com/
+- 下载 `.msi` 安装包，运行安装即可。
+
+### 验证
+
+```powershell
+PS C:\Users\Lenovo> gh --version
+gh version 2.93.0 (2026-05-27)
+https://github.com/cli/cli/releases/tag/v2.93.0
+```
+
+### 查看安装位置
+
+- ## 使用`Get-Command`
+
+`Get-Command` 是 **PowerShell 中的一个内置命令**（也叫做 cmdlet），它的作用是**查找并列出系统中可用的命令**——包括可执行程序（如 `gh.exe`）、PowerShell 函数、别名、脚本等。
+
+通俗地说：**`Get-Command` 相当于其他终端里的 `which` 或 `where`**，但功能更强大。
+
+```powershell
+PS C:\Users\Lenovo> Get-Command gh
+
+CommandType     Name                                               Version    Source
+-----------     ----                                               -------    ------
+Application     gh.exe                                             0.0.0.0    C:\Program Files\GitHub CLI\gh.exe
+```
+
+`Source` 列就是安装路径。
+
+- ### 使用传统 `where.exe` 命令
+
+```powershell
+PS C:\Users\Lenovo> where.exe gh
+C:\Program Files\GitHub CLI\gh.exe
+```
+
+注意是 `where.exe` 而不是 `where`，这样会调用 Windows 自带的 `where` 工具。
+
+## Linux版安装
+
+### 🥇 推荐方法：使用包管理器一键安装（最简单）
+
+#### Debian / Ubuntu 及其衍生版
+
+请在终端中依次运行以下命令来添加 GitHub CLI 的官方 APT 仓库并安装：
+
+```bash
+# 1. 安装依赖工具
+sudo apt update
+sudo apt install -y curl gpg
+
+# 2. 添加 GitHub CLI 的 GPG 密钥和 APT 源
+sudo mkdir -p -m 755 /etc/apt/keyrings
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
+sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
+# 3. 更新软件包列表并安装 gh
+sudo apt update
+sudo apt install -y gh
+```
+
+对于部分较新或已内置 `gh` 的 Ubuntu/Debian 版本，也可以直接通过默认源安装，但版本可能不是最新的：
+
+```bash
+sudo apt install gh
+```
+
+### 🥈 备用方法：手动安装二进制文件
+
+如果你使用的发行版没有现成的安装包，或者希望手动控制安装位置，可以下载预编译的二进制文件。
+
+1. 访问 GitHub CLI 的 [Releases 页面](https://github.com/cli/cli/releases)。
+
+2. 下载对应你系统架构的 `.tar.gz` 文件，例如 `gh_*_linux_amd64.tar.gz`。
+
+3. 解压并将 `gh` 二进制文件移动到你的 `PATH` 路径下，例如 `/usr/local/bin`：
+
+   ```bash
+   # 示例：假设你下载的是最新版 v2.93.0 的 amd64 版本
+   tar -xzf gh_2.93.0_linux_amd64.tar.gz
+   sudo cp gh_2.93.0_linux_amd64/bin/gh /usr/local/bin/
+   ```
+
+### ✨ 验证安装
+
+```bash
+gh --version
+#gh version 2.93.0 (2026-05-27)
+#https://github.com/cli/cli/releases/tag/v2.93.0
+```
+
+## 登录 GitHub 账号
+
+https://zhuanlan.zhihu.com/p/2009571131246522481
+
 # 在 VSCode 中使用 SSH 将本地更改推送到 GitHub 已有仓库
 
 本文档整合了从零开始配置 Git/SSH、在 VSCode 中操作并将本地项目更新推送到 GitHub 已有仓库的完整流程。包含 Windows 和 Linux 环境下的示例，并保留了关键截图链接。
@@ -10,7 +118,7 @@
 
 ## 1.1 安装 Git
 
-- 从 [git-scm.com](https://git-scm.com/) 下载并安装。
+- 从 [git-scm.com](https://git-scm.com/) 下载并安装。WindowsCPU架构一般是X86_64位
 - 安装后在终端（VSCode 终端或系统终端）验证：`git --version`
 
 ## 1.2 配置 Git 用户信息（首次使用）
